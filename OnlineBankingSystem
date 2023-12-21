@@ -1,0 +1,41 @@
+public class OnlineBankingSystem {
+    public static void main(String[] args) {
+        Bank bank = new Bank();
+
+        User user1 = new User("user1", "password1");
+        User user2 = new User("user2", "password2");
+
+        Account account1 = new Account("001", 1000);
+        Account account2 = new Account("002", 500);
+
+        user1.addAccount(account1);
+        user2.addAccount(account2);
+
+        bank.addUser(user1);
+        bank.addUser(user2);
+
+        // Example of banking operations
+        user1.getAccount("001").deposit(500);
+        user2.getAccount("002").withdraw(200);
+
+        user1.getAccount("001").transfer(user2.getAccount("002"), 300);
+
+        // Print account information and transaction history
+        printAccountInfo(user1, "001");
+        printAccountInfo(user2, "002");
+    }
+
+    private static void printAccountInfo(User user, String accountNumber) {
+        System.out.println("Account Information for " + user.getUsername() + " - Account " + accountNumber);
+        Account account = user.getAccount(accountNumber);
+        System.out.println("Balance: $" + account.getBalance());
+        System.out.println("Transaction History:");
+
+        for (Transaction transaction : account.getTransactionHistory()) {
+            System.out.println(transaction.getType() + " - Amount: $" + transaction.getAmount()
+                    + " - Date: " + transaction.getTimestamp());
+        }
+
+        System.out.println();
+    }
+}
